@@ -83,12 +83,12 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
+        'TEST': {
+            'NAME': 'test-database'
+        },
     }
 }
 
-if 'test' in sys.argv or 'test\_coverage' in sys.argv:
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-    DATABASES['default']['NAME'] = 'postgres'
 
 # use it if you prefer to use sqlite for tests instead of postgres:
 # if 'test' in sys.argv or 'test\_coverage' in sys.argv: #Covers regular testing and django-coverage
