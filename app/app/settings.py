@@ -96,7 +96,7 @@ if 'test' in sys.argv or 'test\_coverage' in sys.argv:
            'NAME': 'github_actions',
            'USER': 'postgres',
            'PASSWORD': 'postgres',
-           'HOST': 'postgres',
+           'HOST': 'localhost',
            'PORT': '5432',
         }
     }
