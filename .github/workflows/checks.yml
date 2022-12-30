@@ -38,7 +38,7 @@ jobs:
           POSTGRES_DB: postgres
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: postgres
+          POSTGRES_HOST: localhost
       - name: Lint the Code
         run: docker-compose run --rm app sh -c "flake8"
 
