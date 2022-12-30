@@ -32,7 +32,9 @@ jobs:
       - name: Checkout the Code
         uses: actions/checkout@v2
       - name: Test the Code
-        run: docker ps && docker-compose run --rm app sh -c "python manage.py test"
+        run: docker ps &&
+             docker exec postgres sh sudo service postgresql start &&
+             docker-compose run --rm app sh -c "python manage.py test"
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
