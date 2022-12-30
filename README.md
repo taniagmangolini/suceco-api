@@ -38,6 +38,11 @@ docker-compose up
 
 docker-compose run --rm app sh -c "python manage.py startapp appname"
 
+
+#### Create and apply migrations
+
+docker-compose run --rm app sh -c "python manage.py makemigrations && python manage.py migrate"
+
 #### Run a specific management command (ex. wait_for_db)
 
 docker-compose run --rm app sh -c "python manage.py wait_for_db"
