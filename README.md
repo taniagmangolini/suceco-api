@@ -12,10 +12,6 @@ docker build .
 
 docker-compose build
 
-#### Run the linting tool flake8
-
-docker-compose run --rm app sh -c "flake8"
-
 #### Create a docker project
 
 docker-compose run --rm app sh -c "django-admin startproject app ."
@@ -23,6 +19,10 @@ docker-compose run --rm app sh -c "django-admin startproject app ."
 #### Run tests
 
 docker-compose run --rm app sh -c "python manage.py test"
+
+#### Run the linting tool flake8
+
+docker-compose run --rm app sh -c "flake8"
 
 #### Run system
 
