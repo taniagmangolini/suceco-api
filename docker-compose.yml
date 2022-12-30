@@ -24,8 +24,6 @@ services:
     container_name: suceco-db-api
     volumes: 
       - dev-db-data:/var/lib/postgresql/data
-    expose:
-      - 5432
     env_file:
       - .env
     environment:
