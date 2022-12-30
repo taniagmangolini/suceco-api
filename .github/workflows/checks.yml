@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:13-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
