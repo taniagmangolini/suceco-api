@@ -22,11 +22,13 @@ docker-compose run --rm app sh -c "python manage.py test"
 
 #### Coverage tests
 
-docker-compose run --rm app sh -c "coverage run manage.py test"
+docker-compose run --rm app sh -c "coverage run manage.py test && coverage report -m"
 
 #### Run the linting tool flake8
 
 docker-compose run --rm app sh -c "flake8"
+
+To tell flake8 to ignore something, add # noqa to it.
 
 #### Run system
 
@@ -35,3 +37,8 @@ docker-compose up
 #### Create a new app
 
 docker-compose run --rm app sh -c "python manage.py startapp appname"
+
+#### Run a specific management command (ex. wait_for_db)
+
+docker-compose run --rm app sh -c "python manage.py wait_for_db"
+

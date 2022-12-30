@@ -6,3 +6,6 @@
   Dockerfile
   docker-compose.yml
   */settings.py
+  */py/lib/python3.9/site-packages/*
+  *__init__*
+  *Test*
