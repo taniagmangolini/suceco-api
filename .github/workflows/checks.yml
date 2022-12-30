@@ -35,9 +35,7 @@ jobs:
         run: sleep 30 && docker ps &&
              docker-compose run --rm app sh -c "python manage.py test"
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: github_actions
+          DB_HOST: postgres
       - name: Lint the Code
         run: docker-compose run --rm app sh -c "flake8"
 
