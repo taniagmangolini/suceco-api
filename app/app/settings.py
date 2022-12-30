@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 #    }
 #}
 
-if os.environ.get('GITHUB_ACTIONS'):
+if os.environ.get('GIT_HUB_ACTIONS'):
     DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
@@ -108,6 +108,9 @@ else:
             'NAME': os.environ.get('DB_NAME'),
             'USER': os.environ.get('DB_USER'),
             'PASSWORD': os.environ.get('DB_PASS'),
+            'TEST': {
+                'NAME': 'test-database'
+            },
         }
     }
 
