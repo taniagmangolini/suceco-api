@@ -1,9 +1,9 @@
 
 [flake8]
 exclude = 
-    migrations,
-    __pycache__,
-    manage.py,
+    migrations
+    __pycache__
+    manage.py
     settings.py
     Dockerfile
     docker-compose.yaml
