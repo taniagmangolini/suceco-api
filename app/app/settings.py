@@ -85,7 +85,7 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASS'),
         'TEST': {
             'NAME': 'test-database'
-        },    
+        },
     }
 }
 
@@ -93,7 +93,7 @@ DATABASES = {
 # if 'test' in sys.argv or 'test\_coverage' in sys.argv: #Covers regular testing and django-coverage
 #    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 #    DATABASES['default']['NAME'] = ':memory:'
- 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -136,3 +136,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Using a custom model and manager for users
+AUTH_USER_MODEL = 'core.User'

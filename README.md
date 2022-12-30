@@ -38,12 +38,21 @@ docker-compose up
 
 docker-compose run --rm app sh -c "python manage.py startapp appname"
 
+#### Migrations
 
-#### Create and apply migrations
+##### Create and apply migrations
+docker-compose run --rm app sh -c "python manage.py makemigrations && python manage.py wait_for_db && python manage.py migrate"
 
-docker-compose run --rm app sh -c "python manage.py makemigrations && python manage.py migrate"
+##### Only migrate
+docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py migrate"
+
+##### Check migrations
+docker-compose run --rm app sh -c "python manage.py showmigrations"
 
 #### Run a specific management command (ex. wait_for_db)
 
 docker-compose run --rm app sh -c "python manage.py wait_for_db"
 
+#### Create a superuser
+
+docker-compose run --rm app sh -c "python manage.py createsuperuser"
