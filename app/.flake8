@@ -5,3 +5,6 @@ exclude =
     __pycache__,
     manage.py,
     settings.py
+    Dockerfile
+    docker-compose.yaml
+    .env
