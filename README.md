@@ -20,6 +20,10 @@ docker-compose run --rm app sh -c "django-admin startproject app ."
 
 docker-compose run --rm app sh -c "python manage.py test"
 
+#### Coverage tests
+
+docker-compose run --rm app sh -c "coverage run manage.py test"
+
 #### Run the linting tool flake8
 
 docker-compose run --rm app sh -c "flake8"
