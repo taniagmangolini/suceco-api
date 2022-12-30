@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Test the Code
         run: docker ps &&
-             docker exec postgres sh sudo service postgresql start &&
+             docker exec postgres bash -c "pg_ctl -D /usr/local/var/postgres start" &&
              docker-compose run --rm app sh -c "python manage.py test"
         env:
           POSTGRES_USER: postgres
