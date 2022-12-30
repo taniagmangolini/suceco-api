@@ -17,7 +17,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Test the Code
         run: docker ps &&
-             docker exec suceco-db-api sh -c "ls /var/lib/postgresql/data" &&
              docker-compose run --rm app sh -c "python manage.py test"
         env:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
