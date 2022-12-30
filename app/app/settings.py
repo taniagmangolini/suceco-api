@@ -93,7 +93,7 @@ if 'test' in sys.argv or 'test\_coverage' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'HOST': 'postgres',
+            'HOST': 'localhost',
             'NAME': 'postgres',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
