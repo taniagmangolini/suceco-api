@@ -6,5 +6,5 @@ exclude =
     manage.py,
     app/settings.py,
     Dockerfile,
-    docker-compose.yaml,
+    docker-compose.yml,
     .env
