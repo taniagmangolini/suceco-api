@@ -16,14 +16,14 @@ jobs:
       - name: Checkout the Code
         uses: actions/checkout@v2
       - name: Test the Code
-        run: docker-compose run --rm app sh -c "python manage.py test"
+        run: docker-compose run --rm app sh -c "touch .env && python manage.py test"
         env:
-          POSTGRES_DB_NAME: ${{ secrets.POSTGRES_DB_NAME }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
       - name: Lint the Code
-        run: touch .env && docker-compose run --rm app sh -c "flake8"
+        run: docker-compose run --rm app sh -c "flake8"
 
 
 
