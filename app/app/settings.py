@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 #    }
 #}
 
-if 'test' in sys.argv or 'test\_coverage' in sys.argv:
+if os.environ.get('GITHUB_ACTIONS'):
     DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
@@ -100,7 +100,16 @@ if 'test' in sys.argv or 'test\_coverage' in sys.argv:
            'PORT': '5432',
         }
     }
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'HOST': os.environ.get('DB_HOST'),
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASS'),
+        }
+    }
 
 
 # use it if you prefer to use sqlite for tests instead of postgres:
