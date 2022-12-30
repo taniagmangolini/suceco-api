@@ -14,7 +14,7 @@ jobs:
           POSTGRES_DB: postgres
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: 'test-database'
+          POSTGRES_HOST: test-database
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -36,7 +36,7 @@ jobs:
           POSTGRES_DB: postgres
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: 'test-database'
+          POSTGRES_HOST: test-database
       - name: Lint the Code
         run: docker-compose run --rm app sh -c "flake8"
 
