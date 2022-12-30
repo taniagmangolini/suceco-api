@@ -92,11 +92,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 if 'test' in sys.argv or 'test\_coverage' in sys.argv:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'HOST': 'localhost',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': 'github_actions',
+           'USER': 'postgres',
+           'PASSWORD': 'postgres',
+           'HOST': '127.0.0.1',
+           'PORT': '5432',
         }
     }
 else:
