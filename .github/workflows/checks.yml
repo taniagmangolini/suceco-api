@@ -23,7 +23,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
       - name: Lint the Code
-        run: docker-compose run --rm app sh -c "flake8"
+        run: touch .env && docker-compose run --rm app sh -c "flake8"
 
 
 
