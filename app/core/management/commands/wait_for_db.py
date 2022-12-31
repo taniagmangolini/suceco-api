@@ -14,6 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Entrypoint for command."""
+        self.stdout.write('Is github actions? {}'.format(os.environ.get('GIT_HUB_ACTIONS')))
         self.stdout.write('Database: {} {}'.format(os.environ.get('DB_HOST'), os.environ.get('DB_NAME')))
         self.stdout.write('waiting for db...')
         db_up = False
