@@ -1,0 +1,14 @@
+[run]
+omit =
+    */environment/*
+    */migrations/*
+    */py/lib/*
+    *__pycache__*
+    manage.py
+    Dockerfile
+    docker-compose.yml
+    */settings.py
+    *__init__*
+    *Test*
+    */site-packages/*
+    */tests/*

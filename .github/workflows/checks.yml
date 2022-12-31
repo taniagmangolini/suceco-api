@@ -21,7 +21,9 @@ jobs:
           compose-file: "docker-compose.yml"
       - name: Test the Code
         run: sleep 30 && docker ps &&
-             docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
+             docker-compose run --rm app sh -c "python manage.py wait_for_db &&
+                                                coverage run manage.py test &&
+                                                coverage report -m"
       - name: Lint the Code
         run: docker-compose run --rm app sh -c "flake8"
 
