@@ -76,32 +76,31 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'HOST': os.environ.get('DB_HOST'),
+#        'NAME': os.environ.get('DB_NAME'),
+#        'USER': os.environ.get('DB_USER'),
+#        'PASSWORD': os.environ.get('DB_PASS'),
+#        'TEST': {
+#            'NAME': 'postgres'
+#        },
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('DB_HOST'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS'),
+        'HOST': '127.0.0.1',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'TEST': {
             'NAME': 'postgres'
         },
     }
 }
-
-if 'test' in sys.argv or 'test\_coverage' in sys.argv:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'HOST': '127.0.0.1',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
-            'TEST': {
-                'NAME': 'postgres'
-            },
-        }
-    }
 
 # use it if you prefer to use sqlite for tests instead of postgres:
 # if 'test' in sys.argv or 'test\_coverage' in sys.argv: #Covers regular testing and django-coverage
