@@ -20,24 +20,23 @@ jobs:
         with:
           compose-file: "docker-compose.yml"
         env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASS: ${{ secrets.DB_PASS }}
-          POSTGRES_DB: ${{ secrets.DB_NAME }}
-          POSTGRES_USER: ${{ secrets.DB_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASS }}
+          DB_NAME: postgres
+          DB_USER: postgres
+          DB_PASS: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
       - name: Test the Code
         run: sleep 30 && docker ps &&
              docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
         env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASS: ${{ secrets.DB_PASS }}
-          POSTGRES_DB: ${{ secrets.DB_NAME }}
-          POSTGRES_USER: ${{ secrets.DB_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASS }}
+          DB_HOST: postgres
+          DB_NAME: postgres
+          DB_USER: postgres
+          DB_PASS: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
       - name: Lint the Code
         run: docker-compose run --rm app sh -c "flake8"
 
