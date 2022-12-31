@@ -21,6 +21,7 @@ RUN python -m venv /py && \
     fi && \
     rm -rf /tmp && \
     apk del .tmp-build-deps && \
+    touch /app/.coverage && \
     adduser \
         --disabled-password \
         --no-create-home \
