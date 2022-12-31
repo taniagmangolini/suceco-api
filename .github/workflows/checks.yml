@@ -7,22 +7,6 @@ jobs:
   test-lint:
     name: Test and Lint
     runs-on: ubuntu-20.04
-    services:
-      postgres:
-        image: postgres:13-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: github_actions
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: >-
-          --name postgres
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 10s
-          --health-retries 5
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -35,11 +19,10 @@ jobs:
         run: sleep 60 && docker ps &&
              docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
         env:
-          DB_HOST: postgres
-          POSTGRES_DB: github_actions
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: postgres
+          DB_HOST: ${{ secrets.DB_HOST }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASS }}
       - name: Lint the Code
         run: docker-compose run --rm app sh -c "flake8"
 
