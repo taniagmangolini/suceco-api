@@ -19,9 +19,6 @@ jobs:
         uses: isbang/compose-action@v1.4.1
         with:
           compose-file: "docker-compose.yml"
-          services: |
-            suceco-db-api
-            a
         env:
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_NAME: ${{ secrets.DB_NAME }}
