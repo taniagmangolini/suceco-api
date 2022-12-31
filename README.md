@@ -4,23 +4,27 @@ Suceco Django API Project
 
 ### Useful Commands
 
-#### Build the containeirs using the Dockerfile
+#### Build
+
+##### Build the containeirs using the Dockerfile
 
 docker build .
 
-#### Build containeirs using the the docker-compose file
+##### Build containeirs using the the docker-compose file
 
-docker-compose build
+docker-compose buil
 
 #### Create a docker project
 
 docker-compose run --rm app sh -c "django-admin startproject app ."
 
-#### Run tests
+#### Tests
+
+##### Run tests
 
 docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
 
-#### Coverage tests
+##### Run teste and Coverage
 
 docker-compose run --rm app sh -c "coverage run manage.py test && coverage report -m"
 
