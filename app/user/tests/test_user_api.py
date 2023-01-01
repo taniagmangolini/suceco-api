@@ -7,6 +7,8 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
+from rest_framework_simplejwt.tokens import AccessToken
+
 
 CREATE_USER_URL = reverse('user:create')
 
@@ -21,6 +23,29 @@ class PublicUserApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
+        self.client_not_authenticated = APIClient()
+        email = 'authenticated_user@test.com'
+        password = 'strongP@assword!'
+        authenticated_user = get_user_model().objects.create_user(
+            email=email,
+            password=password,
+            name='Test Authenticated User'
+        )
+        token = AccessToken.for_user(user=authenticated_user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+
+    def test_create_user_when_not_authenticated(self):
+        """Test a if an error will be returned if there is an
+        attempt to create a user without previous authentication.
+        """
+        payload = {
+            'email': 'new_user1@test.com',
+            'password': 'password123',
+            'name': 'New user 1'
+        }
+        res = self.client_not_authenticated.post(CREATE_USER_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create_user_success(self):
         """Test a successful attempt to create a user;
@@ -31,9 +56,9 @@ class PublicUserApiTests(TestCase):
         be returned).
         """
         payload = {
-            'email': 'new_user@test.com',
+            'email': 'new_user1@test.com',
             'password': 'password123',
-            'name': 'Persons name'
+            'name': 'New user 1'
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -47,9 +72,9 @@ class PublicUserApiTests(TestCase):
         email that already exists.
         """
         payload = {
-            'email': 'new_user@test.com',
+            'email': 'new_user2@test.com',
             'password': 'password123',
-            'name': 'Persons name'
+            'name': 'New user 2'
         }
         create_user(**payload)
 
@@ -62,9 +87,9 @@ class PublicUserApiTests(TestCase):
         password that is too short (less than 8 chars).
         """
         payload = {
-            'email': 'new_user@test.com',
-            'password': '1234567',
-            'name': 'Persons name'
+            'email': 'new_user3@test.com',
+            'password': '12345',
+            'name': 'New user 3'
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
