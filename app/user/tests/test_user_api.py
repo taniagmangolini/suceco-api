@@ -39,18 +39,16 @@ class PublicUserApiTests(TestCase):
         """Test the url to get token_obtain_pair
         with valid credentials."""
         test_client = APIClient()
-        email = 'unauthenticated_user@test.com'
-        password = 'strongP@assword!'
+        user_data = {
+            'email': 'unauthenticated_user@test.com',
+            'password': 'strongP@assword!'
+        }
         get_user_model().objects.create_user(
-            email=email,
-            password=password,
+            email=user_data['email'],
+            password=user_data['password'],
             name='Test unauthenticated User'
         )
-        user_data = {
-            'email': email,
-            'password': password
-        }
-        res = self.client.post(CREATE_TOKEN_URL,
+        res = test_client.post(CREATE_TOKEN_URL,
                                user_data,
                                format='json')
         token = res.data['access']
@@ -65,7 +63,7 @@ class PublicUserApiTests(TestCase):
             'email': 'invalid@test.com',
             'password': '12324354767'
         }
-        res = self.client.post(CREATE_TOKEN_URL,
+        res = test_client.post(CREATE_TOKEN_URL,
                                user_data,
                                format='json')
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
