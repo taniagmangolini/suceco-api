@@ -35,8 +35,9 @@ class PublicUserApiTests(TestCase):
         token = AccessToken.for_user(user=authenticated_user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
 
-    def test_get_token_url(self):
-        """Test the url to get token_obtain_pair."""
+    def test_get_token_url_valid_credentials(self):
+        """Test the url to get token_obtain_pair
+        with valid credentials."""
         test_client = APIClient()
         email = 'unauthenticated_user@test.com'
         password = 'strongP@assword!'
@@ -55,6 +56,19 @@ class PublicUserApiTests(TestCase):
         token = res.data['access']
         test_client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_get_token_url_invalid_credentials(self):
+        """Test the url to get token_obtain_pair
+        with invalid credentials."""
+        test_client = APIClient()
+        user_data = {
+            'email': 'invalid@test.com',
+            'password': '12324354767'
+        }
+        res = self.client.post(CREATE_TOKEN_URL,
+                               user_data,
+                               format='json')
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create_user_when_not_authenticated(self):
         """Test a if an error will be returned if there is an
