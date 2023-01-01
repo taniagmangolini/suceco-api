@@ -149,8 +149,13 @@ AUTH_USER_MODEL = 'core.User'
 # https://drf-spectacular.readthedocs.io/en/latest/
 # https://django-filter.readthedocs.io/en/stable/guide/rest_framework.html
 # https://github.com/jazzband/djangorestframework-simplejwt/tree/master/docs
+# https://djoser.readthedocs.io/en/latest/getting_started.html
+# https://github.com/sunscrapers/djoser
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
