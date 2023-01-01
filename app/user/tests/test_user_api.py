@@ -50,8 +50,8 @@ class PublicUserApiTests(TestCase):
             'password': password
         }
         res = self.client.post(CREATE_TOKEN_URL,
-                                    user_data,
-                                    format='json')
+                               user_data,
+                               format='json')
         token = res.data['access']
         test_client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(res.status_code, status.HTTP_200_OK)
