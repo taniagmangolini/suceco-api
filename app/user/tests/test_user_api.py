@@ -11,6 +11,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 
 
 CREATE_USER_URL = reverse('user:create')
+CREATE_TOKEN_URL = reverse('token_obtain_pair')
 
 
 def create_user(**params):
@@ -33,6 +34,27 @@ class PublicUserApiTests(TestCase):
         )
         token = AccessToken.for_user(user=authenticated_user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+
+    def test_get_token_url(self):
+        """Test the url to get token_obtain_pair."""
+        test_client = APIClient()
+        email = 'unauthenticated_user@test.com'
+        password = 'strongP@assword!'
+        get_user_model().objects.create_user(
+            email=email,
+            password=password,
+            name='Test unauthenticated User'
+        )
+        user_data = {
+            'email': email,
+            'password': password
+        }
+        res = self.client.post(CREATE_TOKEN_URL,
+                                    user_data,
+                                    format='json')
+        token = res.data['access']
+        test_client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_create_user_when_not_authenticated(self):
         """Test a if an error will be returned if there is an
