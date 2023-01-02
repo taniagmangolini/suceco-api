@@ -1,22 +1,21 @@
 """
 Serializers for the User API view.
 """
-
 from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import (
-    TokenObtainPairSerializer,
-)
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer for the user object.j
+    """Serializer for the user object.
     For security reasons, the password cannot be read.
     """
 
     class Meta:
         model = get_user_model()
-        fields = ['email', 'password', 'name']
+        fields = ['email', 'password', 'name', 'last_login']
         extra_kwargs = {'password': {'write_only': True, 'min_length': 8}}
 
     def create(self, validated_data):
@@ -34,3 +33,44 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['name'] = user.name
         return token
+
+
+class RequestPasswordResetEmailSerializer(serializers.Serializer):
+    """Sends to the user an email with a link to change
+    the password."""
+    email = serializers.EmailField()
+
+    class Meta:
+        fields = ['email']
+
+    def validate_email(self, email):
+        user = get_user_model().objects.filter(email=email)
+        if not user:
+            raise serializers.ValidationError('E-mail not found.')
+        return email
+
+
+class CompletePasswordResetSerializer(serializers.Serializer):
+    password = serializers.CharField(min_length=8, write_only=True)
+    token = serializers.CharField(min_length=1, write_only=True)
+    email = serializers.EmailField(write_only=True)
+
+    class Meta:
+        fields = ['password', 'token', 'email']
+
+    def validate(self, attrs):
+        try:
+            new_password = attrs.get('password')
+            token = attrs.get('token')
+            email = attrs.get('email')
+            user = get_user_model().objects.filter(email=email).first()
+
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                raise serializers.ValidationError('Invalid link.')
+
+            user.set_password(new_password)
+            user.save()
+        except Exception as e:
+            raise serializers.ValidationError(f'[Error] {e}')
+
+        return super().validate(attrs)
