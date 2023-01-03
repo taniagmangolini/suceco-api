@@ -35,13 +35,18 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 
-class RequestPasswordResetEmailSerializer(serializers.Serializer):
+class PasswordResetEmailSerializer(serializers.Serializer):
     """Sends to the user an email with a link to change
     the password."""
     email = serializers.EmailField()
 
     class Meta:
         fields = ['email']
+
+
+class RequestPasswordResetEmailSerializer(PasswordResetEmailSerializer):
+    """Sends to the user an email with a link to change
+    the password."""
 
     def validate_email(self, email):
         user = get_user_model().objects.filter(email=email)
@@ -50,10 +55,16 @@ class RequestPasswordResetEmailSerializer(serializers.Serializer):
         return email
 
 
-class CompletePasswordResetSerializer(serializers.Serializer):
-    password = serializers.CharField(min_length=8, write_only=True)
+class ConfirmPasswordResetSerializer(PasswordResetEmailSerializer):
+    """Confirm password reset by the link received throught e-mail API"""
     token = serializers.CharField(min_length=1, write_only=True)
-    email = serializers.EmailField(write_only=True)
+
+    class Meta:
+        fields = ['email', 'token']
+
+
+class CompletePasswordResetSerializer(ConfirmPasswordResetSerializer):
+    password = serializers.CharField(min_length=8, write_only=True)
 
     class Meta:
         fields = ['password', 'token', 'email']

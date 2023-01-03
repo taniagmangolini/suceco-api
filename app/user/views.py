@@ -16,6 +16,7 @@ from user.serializers import (
     UserSerializer,
     CustomTokenObtainPairSerializer,
     RequestPasswordResetEmailSerializer,
+    ConfirmPasswordResetSerializer,
     CompletePasswordResetSerializer,
 )
 
@@ -47,7 +48,8 @@ class RequestPasswordResetEmailView(generics.GenericAPIView):
             token = PasswordResetTokenGenerator().make_token(user)
             current_site = get_current_site(request).domain
             relativeLink = reverse('user:password-reset-confirm',
-                                   kwargs={'email': email, 'token': token})
+                                   kwargs={'email': email,
+                                           'token': token})
             url = 'http://' + current_site + relativeLink
             send_reset_password_email({'email': email, 'url': url})
             return Response(status=status.HTTP_200_OK)
@@ -56,7 +58,9 @@ class RequestPasswordResetEmailView(generics.GenericAPIView):
 
 
 class ConfirmPasswordResetView(generics.GenericAPIView):
+    """Confirm password reset by the link received throught e-mail API"""
     permission_classes = (AllowAny,)
+    serializer_class = ConfirmPasswordResetSerializer
 
     def get(self, request, email, token):
         """Validate if the token to change the password is still valid."""
