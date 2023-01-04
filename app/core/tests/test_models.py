@@ -4,6 +4,9 @@ Test for models.
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+from core import models
+from utils.constants import DomainsType
+
 
 class ModelTest(TestCase):
     """Test model"""
@@ -57,3 +60,10 @@ class ModelTest(TestCase):
         )
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_create_forest_successful(self):
+        """Test a successful attempt to create a forest."""
+        domain = DomainsType.MATA_ATLANTICA.value
+        forest = models.Forest.objects.create(name='Forest X',
+                                              domain=domain)
+        self.assertEqual(str(forest), forest.name)
