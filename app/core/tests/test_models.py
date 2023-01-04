@@ -63,7 +63,7 @@ class ModelTest(TestCase):
 
     def test_create_forest_successful(self):
         """Test a successful attempt to create a forest."""
-        domain = DomainsType.MATA_ATLANTICA.value
+        domain = DomainsType.mata_atlantica
         forest = models.Forest.objects.create(name='Forest X',
                                               domain=domain)
         self.assertEqual(str(forest), forest.name)

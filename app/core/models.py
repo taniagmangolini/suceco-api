@@ -4,7 +4,9 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
-from utils.constants import DOMAINS, STATUS, StatusType
+from utils.constants import StatusType, DomainsType
+
+from enumchoicefield import EnumChoiceField
 
 
 class UserManager(BaseUserManager):
@@ -54,9 +56,9 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
 class Forest(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=500, unique=True)
-    domain = models.CharField(max_length=100, choices=DOMAINS)
-    status = models.IntegerField(choices=STATUS,
-                                 default=StatusType.ACTIVE.value)
+    domain = EnumChoiceField(enum_class=DomainsType)
+    status = EnumChoiceField(enum_class=StatusType,
+                             default=StatusType.active)
 
     def __str__(self):
         return self.name
