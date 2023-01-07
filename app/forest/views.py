@@ -5,8 +5,6 @@ from rest_framework.permissions import AllowAny
 from core.models import Forest
 from forest import serializers
 
-from utils.constants import StatusType
-
 
 class ForestViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ForestDetailSerializer
@@ -15,7 +13,7 @@ class ForestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Retrieve active forests."""
-        return self.queryset.filter(status=StatusType.active).order_by('-id')
+        return self.queryset.filter(is_active=True).order_by('-id')
 
     def get_serializer_class(self):
         """Return the serializer class for request."""

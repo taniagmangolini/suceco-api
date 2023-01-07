@@ -4,9 +4,10 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
-from utils.constants import StatusType, DomainsType
 
-from enumchoicefield import EnumChoiceField
+from utils.constants import DomainType
+
+from enumfields import EnumIntegerField
 
 
 class UserManager(BaseUserManager):
@@ -36,6 +37,7 @@ class BaseModel(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     deleted_at = models.DateField(auto_now=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         abstract = True
@@ -44,7 +46,6 @@ class BaseModel(models.Model):
 class User(AbstractBaseUser, BaseModel, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     last_login = models.DateTimeField(auto_now=True)
 
@@ -56,9 +57,7 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
 class Forest(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=500, unique=True)
-    domain = EnumChoiceField(enum_class=DomainsType)
-    status = EnumChoiceField(enum_class=StatusType,
-                             default=StatusType.active)
+    domain = EnumIntegerField(enum=DomainType)
 
     def __str__(self):
         return self.name

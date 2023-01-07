@@ -9,7 +9,7 @@ from core.models import Forest
 
 from forest.serializers import ForestSerializer, ForestDetailSerializer
 
-from utils.constants import DomainsType, StatusType
+from utils.constants import DomainType
 
 
 FOREST_URL = reverse('forest:forest-list')
@@ -23,7 +23,7 @@ def detail_url(forest_id):
 def create_forest(**params):
     """Create and return forest."""
     forest = Forest.objects.create(name=params['name'],
-                                   domain=DomainsType.mata_atlantica)
+                                   domain=DomainType.MATA_ATLANTICA)
     return forest
 
 
@@ -39,8 +39,7 @@ class PublicForestAPITests(TestCase):
         create_forest(**{'name': 'Forest Test Y'})
 
         res = self.client.get(FOREST_URL)
-        status_type = StatusType.active
-        forests = Forest.objects.filter(status=status_type).order_by('-id')
+        forests = Forest.objects.filter(is_active=True).order_by('-id')
         serializer = ForestSerializer(forests, many=True)
 
         self.assertEquals(res.status_code, status.HTTP_200_OK)

@@ -3,8 +3,13 @@ from rest_framework import serializers
 
 from core.models import Forest
 
+from utils import fields
+
+from utils.constants import DomainType
+
 
 class ForestSerializer(serializers.ModelSerializer):
+    domain = fields.EnumField(enum=DomainType)
 
     class Meta:
         model = Forest
@@ -15,4 +20,4 @@ class ForestSerializer(serializers.ModelSerializer):
 class ForestDetailSerializer(ForestSerializer):
 
     class Meta(ForestSerializer.Meta):
-        fields = ForestSerializer.Meta.fields + ['status']
+        fields = ForestSerializer.Meta.fields + ['is_active']

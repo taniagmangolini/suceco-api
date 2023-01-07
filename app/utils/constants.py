@@ -1,25 +1,31 @@
-from enumchoicefield import ChoiceEnum
+from enum import Enum
 
 
 RESET_PASSWORD_SUBJECT = 'Reset Password'
 EMAIL_TEMPLATE = 'password_recovery_mail.html'
 
 
-class StatusType(ChoiceEnum):
-    active = 'Active'
-    inactive = 'Inactive'
+class DomainType(Enum):
+    AMAZONIA = 0
+    MATA_ATLANTICA = 1
+    CAATINGA = 2
+    CERRADO = 3
+    PANTANAL = 4
+    PRADARIA = 5
+    OTHER = 6
 
 
-class DomainsType(ChoiceEnum):
-    amazonia = 'Amazonia'
-    mata_atlantica = 'Mata Atlantica'
-    caatinga = 'Caatinga'
-    cerrado = 'Cerrado'
-    pantanal = 'Pantanal'
-    pradaria = 'Pradaria'
+DOMAINS_CHOICES = (
+    (DomainType.AMAZONIA, 'Amazonia'),
+    (DomainType.MATA_ATLANTICA, 'Mata Atlantica'),
+    (DomainType.CAATINGA, 'Caatinga'),
+    (DomainType.CERRADO, 'Cerrado'),
+    (DomainType.PANTANAL, 'Pantanal'),
+    (DomainType.PRADARIA, 'Pradaria'),
+)
 
 
-class StatesType(ChoiceEnum):
+class StatesType(Enum):
     AC = 0
     AL = 1
     AP = 2
