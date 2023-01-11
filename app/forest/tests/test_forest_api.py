@@ -100,7 +100,7 @@ class PrivateForestAPITests(TestCase):
     def test_partial_update_forest_not_authenticated(self):
         """Test partial update of a forest when not authenticated."""
         payload = {'id': self.forest_a.id,
-                   'domain': DomainType.CERRADO}
+                   'domain': DomainType.CERRADO.name}
         url = detail_url(self.forest_a.id)
         res = self.no_auth_client.patch(url, payload)
         self.assertEquals(res.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -109,7 +109,7 @@ class PrivateForestAPITests(TestCase):
         """Test full update of a forest when not authenticated."""
         payload = {'id': self.forest_a.id,
                    'name': 'Forest changed',
-                   'domain': DomainType.CERRADO}
+                   'domain': DomainType.CERRADO.name}
         url = detail_url(self.forest_a.id)
         res = self.no_auth_client.put(url, payload)
         self.assertEquals(res.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -117,9 +117,25 @@ class PrivateForestAPITests(TestCase):
     def test_create_forest_not_authenticated(self):
         """Test create a forest when not authenticated."""
         payload = {'name': 'New Forest Test',
-                   'domain': DomainType.AMAZONIA}
+                   'domain': DomainType.AMAZONIA.name}
         res = self.no_auth_client.post(FOREST_URL, payload)
         self.assertEquals(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_forest_admin(self):
+        """Test create a forest when user is admin."""
+        import json
+        payload = {'name': 'New Forest Test',
+                   'domain': DomainType.AMAZONIA.name}
+        res = self.api_client_admin.post(FOREST_URL, payload, format='json')
+        self.assertEquals(res.status_code, status.HTTP_201_CREATED)
+
+    def test_partial_update_forest_admin(self):
+        """Test partial update of a forest when user is admin."""
+        payload = {'id': self.forest_a.id,
+                   'domain': DomainType.CERRADO.name}
+        url = detail_url(self.forest_a.id)
+        res = self.api_client_admin.patch(url, payload)
+        self.assertEquals(res.status_code, status.HTTP_200_OK)
 
     def test_delete_forest_admin(self):
         """Test delete a forest when user is admin."""
