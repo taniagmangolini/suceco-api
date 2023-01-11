@@ -123,7 +123,6 @@ class PrivateForestAPITests(TestCase):
 
     def test_create_forest_admin(self):
         """Test create a forest when user is admin."""
-        import json
         payload = {'name': 'New Forest Test',
                    'domain': DomainType.AMAZONIA.name}
         res = self.api_client_admin.post(FOREST_URL, payload, format='json')
