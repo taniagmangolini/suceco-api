@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
-from utils.constants import DomainType
+from utils.constants import DomainType, StageType, StateType
 
 from enumfields import EnumIntegerField
 
@@ -34,6 +34,8 @@ class UserManager(BaseUserManager):
 
 
 class BaseModel(models.Model):
+    """Base model for all models."""
+
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     deleted_at = models.DateField(auto_now=True)
@@ -44,6 +46,8 @@ class BaseModel(models.Model):
 
 
 class User(AbstractBaseUser, BaseModel, PermissionsMixin):
+    """User model."""
+
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_staff = models.BooleanField(default=False)
@@ -55,6 +59,8 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
 
 
 class Forest(BaseModel):
+    """Forest model."""
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=500, unique=True)
     domain = EnumIntegerField(enum=DomainType)
@@ -64,3 +70,53 @@ class Forest(BaseModel):
 
     class Meta:
         ordering = ['name']
+
+
+class Reference(BaseModel):
+    """Reference model."""
+
+    id = models.AutoField(primary_key=True)
+    publication = models.CharField(max_length=1000, default='', unique=True)
+    url = models.CharField(max_length=1000, default='')
+
+    def __str__(self):
+        return '-'.join([str(self.id), self.publication, self.url])
+
+
+class Species(BaseModel):
+    """Species model."""
+
+    id = models.AutoField(primary_key=True)
+    scientific_name = models.CharField(max_length=1000,
+                                       unique=True,
+                                       help_text='Species')
+
+    def __str__(self):
+        return self.scientific_name
+
+    class Meta:
+        ordering = ['scientific_name']
+
+
+class Register(BaseModel):
+    """Register model."""
+
+    id = models.AutoField(primary_key=True)
+    species = models.ForeignKey(Species, on_delete=models.CASCADE)
+    forest = models.ForeignKey(Forest,
+                               on_delete=models.CASCADE)
+    reference = models.ForeignKey(Reference,
+                                  on_delete=models.CASCADE)
+    latitude = models.DecimalField(max_digits=10,
+                                   decimal_places=7,
+                                   null=True,
+                                   blank=True)
+    longitude = models.DecimalField(max_digits=10,
+                                    decimal_places=7,
+                                    null=True,
+                                    blank=True)
+    stage = EnumIntegerField(enum=StageType)
+    state = EnumIntegerField(enum=StateType)
+
+    def __str__(self):
+        return '-'.join([str(self.id), self.species.name, self.forest.name])

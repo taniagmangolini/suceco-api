@@ -2,6 +2,7 @@ from enum import Enum
 
 
 RESET_PASSWORD_SUBJECT = 'Reset Password'
+
 EMAIL_TEMPLATE = 'password_recovery_mail.html'
 
 
@@ -15,17 +16,7 @@ class DomainType(Enum):
     OTHER = 6
 
 
-DOMAINS_CHOICES = (
-    (DomainType.AMAZONIA, 'Amazonia'),
-    (DomainType.MATA_ATLANTICA, 'Mata Atlantica'),
-    (DomainType.CAATINGA, 'Caatinga'),
-    (DomainType.CERRADO, 'Cerrado'),
-    (DomainType.PANTANAL, 'Pantanal'),
-    (DomainType.PRADARIA, 'Pradaria'),
-)
-
-
-class StatesType(Enum):
+class StateType(Enum):
     AC = 0
     AL = 1
     AP = 2
@@ -53,3 +44,12 @@ class StatesType(Enum):
     SE = 24
     SP = 25
     TO = 26
+
+
+class StageType(Enum):
+    PIONEIRA = 0
+    SECUNDARIA_INICIAL = 1
+    SECUNDARIA_TARDIA = 2
+    UMBROFILA = 3
+    SECUNDARIA = 4
+    CLIMACICA = 5

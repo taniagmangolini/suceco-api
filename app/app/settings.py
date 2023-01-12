@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'user',
     'utils',
     'forest',
+    'reference',
+    'species',
+    'register',
 ]
 
 MIDDLEWARE = [
