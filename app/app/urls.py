@@ -34,6 +34,8 @@ urlpatterns = [
          name='api-docs'),
     path('api/user/', include('user.urls')),
     path('api/forest/', include('forest.urls')),
+    path('api/species/', include('species.urls')),
+    path('api/reference/', include('reference.urls')),
     path('api/login/',
          TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
