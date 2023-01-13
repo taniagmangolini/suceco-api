@@ -36,6 +36,7 @@ urlpatterns = [
     path('api/forest/', include('forest.urls')),
     path('api/species/', include('species.urls')),
     path('api/reference/', include('reference.urls')),
+    path('api/register/', include('register.urls')),
     path('api/login/',
          TokenObtainPairView.as_view(),
          name='token_obtain_pair'),

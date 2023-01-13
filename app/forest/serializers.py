@@ -4,7 +4,6 @@ from rest_framework import serializers
 from core.models import Forest
 
 from utils import fields
-
 from utils.constants import DomainType
 
 
