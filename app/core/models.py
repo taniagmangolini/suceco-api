@@ -10,7 +10,6 @@ from utils.constants import DomainType, StageType, StateType
 from enumfields import EnumIntegerField
 
 
-
 class UserManager(BaseUserManager):
     """Custom Manager for users"""
 
