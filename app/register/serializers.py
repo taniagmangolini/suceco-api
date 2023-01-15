@@ -30,11 +30,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
     def create(self, validated_data):
-        """Overriding the default create method of the Model \
-        Register serializer to create dependencies forest, species \
+        """Overriding the default create method of the Model
+        Register serializer to create dependencies forest, species
         and reference if necessary.
-        :param validated_data: data containing all the details of a \
-        register
+        :param validated_data: data containing all the details of a
+        register.
         :return: returns a successfully created register record."""
         reference_data = validated_data.pop('reference')
         reference, created = Reference.objects.get_or_create(**reference_data)
@@ -58,8 +58,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Overriding the default update method of the Model Register.
-        :param validated_data: data containing all the details of a \
-        register
+        :param validated_data: data containing all the details of a
+        register.
         :return: returns a successfully created register record."""
         ref_data = validated_data.pop('reference', None)
         if ref_data:
