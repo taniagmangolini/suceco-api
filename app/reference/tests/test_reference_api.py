@@ -127,11 +127,14 @@ class PrivateReferenceAPITests(TestCase):
 
     def test_partial_update_referencedmin(self):
         """Test partial update of a reference when user is admin."""
+        new_publication = 'publication partial update'
         payload = {'id': self.reference.id,
-                   'publication': 'publication partial update'}
+                   'publication': new_publication}
         url = detail_url(self.reference.id)
         res = self.api_client_admin.patch(url, payload)
         self.assertEquals(res.status_code, status.HTTP_200_OK)
+        self.reference.refresh_from_db()
+        self.assertEquals(self.reference.publication, new_publication)
 
     def test_delete_referencedmin(self):
         """Test delete a reference when user is admin."""

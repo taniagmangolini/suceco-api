@@ -43,3 +43,6 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Forest)
+admin.site.register(models.Species)
+admin.site.register(models.Register)
+admin.site.register(models.Reference)
