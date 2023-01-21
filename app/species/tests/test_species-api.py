@@ -49,7 +49,7 @@ class PublicSpeciesAPITests(TestCase):
         self.species_b = create_species(**{'scientific_name': 'Sp test 2'})
 
     def test_list_species_no_auth_required(self):
-        """Test list speciess using the api
+        """Test list species using the api
         when not authenticated."""
         res = self.api_client.get(SPECIES_URL)
         species = Species.objects.filter(is_active=True).order_by('-id')

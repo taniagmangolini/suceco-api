@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'rest_framework_simplejwt.token_blacklist',
+    'storages',
     'core',
     'user',
     'utils',
@@ -200,6 +201,7 @@ SIMPLE_JWT = {
 
 
 # EMAIL CONFIG AWS SES - AWS SIMPLE EMAIL SERVICE
+
 EMAIL_BACKEND = 'django_ses.SESBackend'
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SES_SECRET_ACCESS_KEY')
@@ -207,3 +209,15 @@ AWS_SES_REGION_NAME = os.environ.get('REGION')
 AWS_SES_REGION_ENDPOINT = os.environ.get('REGION_ENDPOINT')
 USE_SES_V2 = True
 EMAIL_FROM=os.environ.get('EMAIL_FROM')
+
+
+# STORAGE
+# https://django-storages.readthedocs.io/en/latest/
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = os.getenv('AWS_SUCECO_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SUCECO_SECRET_ACCESS_KEY', '')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_SUCECO_BUCKET', '')
+AWS_S3_REGION_NAME = os.getenv("REGION")
+AWS_LOCATION = 'media'
+AWS_QUERYSTRING_AUTH = False

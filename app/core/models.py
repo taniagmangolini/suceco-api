@@ -119,4 +119,20 @@ class Register(BaseModel):
     state = EnumIntegerField(enum=StateType)
 
     def __str__(self):
-        return '-'.join([str(self.id), self.species.name, self.forest.name])
+        return '-'.join([str(self.id),
+                         self.species.scientific_name,
+                         self.forest.name])
+
+
+class RegisterPicture(BaseModel):
+    """Register picture model."""
+
+    id = models.AutoField(primary_key=True)
+    file = models.FileField()
+    register = models.ForeignKey(Register,
+                                 models.CASCADE,
+                                 related_name='pictures')
+
+    def __str__(self):
+        return '-'.join([str(self.id), str(self.register.id),
+                         self.register.species.scientific_name])

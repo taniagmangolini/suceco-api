@@ -14,7 +14,7 @@ docker build .
 
 ##### Build containeirs using the the docker-compose file
 
-docker-compose buil
+docker-compose build
 
 #### Create a docker project
 
