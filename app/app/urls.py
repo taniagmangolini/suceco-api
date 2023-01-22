@@ -37,6 +37,7 @@ urlpatterns = [
     path('api/species/', include('species.urls')),
     path('api/reference/', include('reference.urls')),
     path('api/register/', include('register.urls')),
+    path('api/register_picture/', include('register_picture.urls')),
     path('api/login/',
          TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
