@@ -9,6 +9,7 @@ from utils.constants import StateType, StageType
 from reference.serializers import ReferenceSerializer
 from species.serializers import SpeciesSerializer
 from forest.serializers import ForestSerializer
+from register_picture.serializers import RegisterPictureSerializer
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -17,6 +18,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     reference = ReferenceSerializer(required=True)
     species = SpeciesSerializer(required=True)
     forest = ForestSerializer(required=True)
+    pictures = RegisterPictureSerializer(many=True, required=False)
 
     class Meta:
         model = Register
@@ -26,7 +28,8 @@ class RegisterSerializer(serializers.ModelSerializer):
                   'latitude',
                   'longitude',
                   'stage',
-                  'state']
+                  'state',
+                  'pictures']
         read_only_fields = ['id']
 
     def create(self, validated_data):
