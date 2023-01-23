@@ -80,6 +80,120 @@ class PublicRegisterAPITests(TestCase):
         self.assertEquals(res.status_code, status.HTTP_200_OK)
         self.assertEquals(res.data, serializer.data)
 
+    def test_filter_registers_by_forests(self):
+        """Test filter registers by forests ids."""
+        forest2 = baker.make('Forest')
+        species2 = baker.make('Species')
+        register2 = create_register(**{'reference': self.reference,
+                                       'forest': forest2,
+                                       'species': species2,
+                                       'stage': StageType.PIONEIRA,
+                                       'state': StateType.SP})
+        forest3 = baker.make('Forest')
+        species3 = baker.make('Species')
+        register3 = create_register(**{'reference': self.reference,
+                                       'forest': forest3,
+                                       'species': species3,
+                                       'stage': StageType.SECUNDARIA,
+                                       'state': StateType.RJ})
+
+        params = {'forests': f'{self.forest.id},{forest2.id}'}
+        res = self.client.get(REGISTER_URL, params)
+
+        s1 = RegisterSerializer(self.register)
+        s2 = RegisterSerializer(register2)
+        s3 = RegisterSerializer(register3)
+        self.assertIn(s1.data, res.data)
+        self.assertIn(s2.data, res.data)
+        self.assertNotIn(s3.data, res.data)
+
+    def test_filter_registers_by_stages(self):
+        """Test filter registers by stages."""
+        forest2 = baker.make('Forest')
+        species2 = baker.make('Species')
+        register2 = create_register(**{'reference': self.reference,
+                                       'forest': forest2,
+                                       'species': species2,
+                                       'stage': StageType.PIONEIRA,
+                                       'state': StateType.SP})
+        forest3 = baker.make('Forest')
+        species3 = baker.make('Species')
+        register3 = create_register(**{'reference': self.reference,
+                                       'forest': forest3,
+                                       'species': species3,
+                                       'stage': StageType.SECUNDARIA,
+                                       'state': StateType.RJ})
+
+        params = {'forests': f'{self.forest.id},{forest2.id}'}
+        res = self.client.get(REGISTER_URL, params)
+
+        params = {'stages': f'{StageType.SECUNDARIA.value}'}
+        res = self.client.get(REGISTER_URL, params)
+        s1 = RegisterSerializer(self.register)
+        s2 = RegisterSerializer(register2)
+        s3 = RegisterSerializer(register3)
+        self.assertNotIn(s1.data, res.data)
+        self.assertNotIn(s2.data, res.data)
+        self.assertIn(s3.data, res.data)
+
+    def test_filter_registers_by_species(self):
+        """Test filter registers by species ids."""
+        forest2 = baker.make('Forest')
+        species2 = baker.make('Species')
+        register2 = create_register(**{'reference': self.reference,
+                                       'forest': forest2,
+                                       'species': species2,
+                                       'stage': StageType.PIONEIRA,
+                                       'state': StateType.SP})
+        forest3 = baker.make('Forest')
+        species3 = baker.make('Species')
+        register3 = create_register(**{'reference': self.reference,
+                                       'forest': forest3,
+                                       'species': species3,
+                                       'stage': StageType.UMBROFILA,
+                                       'state': StateType.RJ})
+
+        params = {'forests': f'{self.forest.id},{forest2.id}'}
+        res = self.client.get(REGISTER_URL, params)
+
+        params = {'species': f'{species2.id}'}
+        res = self.client.get(REGISTER_URL, params)
+        s1 = RegisterSerializer(self.register)
+        s2 = RegisterSerializer(register2)
+        s3 = RegisterSerializer(register3)
+        self.assertNotIn(s1.data, res.data)
+        self.assertIn(s2.data, res.data)
+        self.assertNotIn(s3.data, res.data)
+
+    def test_filter_register_by_states(self):
+        """Test filter registers by States."""
+        forest2 = baker.make('Forest')
+        species2 = baker.make('Species')
+        register2 = create_register(**{'reference': self.reference,
+                                       'forest': forest2,
+                                       'species': species2,
+                                       'stage': StageType.PIONEIRA,
+                                       'state': StateType.SP})
+        forest3 = baker.make('Forest')
+        species3 = baker.make('Species')
+        register3 = create_register(**{'reference': self.reference,
+                                       'forest': forest3,
+                                       'species': species3,
+                                       'stage': StageType.UMBROFILA,
+                                       'state': StateType.RJ})
+
+        params = {'forests': f'{self.forest.id},{forest2.id}'}
+        res = self.client.get(REGISTER_URL, params)
+
+        params = {'states': f'{StateType.SP.value}'}
+        res = self.client.get(REGISTER_URL, params)
+        s1 = RegisterSerializer(self.register)
+        s2 = RegisterSerializer(register2)
+        s3 = RegisterSerializer(register3)
+        self.assertIn(s1.data, res.data)
+        self.assertIn(s2.data, res.data)
+        self.assertNotIn(s3.data, res.data)
+
 
 class PrivateRegisterAPITests(TestCase):
     """Test authenticated Register API."""
