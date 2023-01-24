@@ -30,8 +30,7 @@ ENV PATH="/py/bin:$PATH"
 
 USER django-user
 
-
-
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 
 

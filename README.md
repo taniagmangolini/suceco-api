@@ -40,6 +40,14 @@ To tell flake8 to ignore something, add # noqa to it.
 
 docker-compose up
 
+You can specify a specific yml file on your commands. For instance:
+
+docker-compose -f docker-compose.yml up
+
+To run in the background add -d. For instance:
+
+docker-compose -f docker-compose.yml up -d
+
 #### Create a new app
 
 docker-compose run --rm app sh -c "python manage.py startapp appname"
@@ -62,3 +70,15 @@ docker-compose run --rm app sh -c "python manage.py wait_for_db"
 #### Create a superuser
 
 docker-compose run --rm app sh -c "python manage.py createsuperuser"
+
+#### Production environment
+
+The production environment will run the system using gunicorn and nginx.
+Check the port it will be running at the nginx service defined in the docker-compose.prod.yml file.
+The command to build and run in the production mode is:
+
+docker-compose -f docker-compose.prod.yml up -d --build
+
+To stop:
+
+docker-compose -f docker-compose.prod.yml stop
