@@ -44,6 +44,8 @@ You can specify a specific yml file on your commands. For instance:
 
 docker-compose -f docker-compose.yml up
 
+docker-compose -f docker-compose.yml up --force-recreate --renew-anon-volumes
+
 To run in the background add -d. For instance:
 
 docker-compose -f docker-compose.yml up -d

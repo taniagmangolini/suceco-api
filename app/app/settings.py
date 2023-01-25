@@ -21,14 +21,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ.get('SECRET_KEY', 'test')
+
+DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        os.environ.get('ALLOWED_HOSTS', '').split(','),
+    )
+)
 
 # Application definition
 
@@ -51,6 +55,7 @@ INSTALLED_APPS = [
     'reference',
     'species',
     'register',
+    'register_picture',
 ]
 
 MIDDLEWARE = [
@@ -91,10 +96,10 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('DB_HOST'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS'),
+        'HOST': os.environ.get('DB_HOST', 'suceco-db-api-dev'),
+        'NAME': os.environ.get('DB_NAME', 'test'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASS', 'postgres'),
         'TEST': {
             'NAME': 'test',
         },
@@ -142,7 +147,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+# Static files
+STATICFILES_FINDERS = (
+'django.contrib.staticfiles.finders.FileSystemFinder',
+'django.contrib.staticfiles.finders.AppDirectoriesFinder'
+)
+STATIC_URL = "/static/"
+STATIC_ROOT = os.environ.get('STATIC_ROOT', '/vol/static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -203,12 +214,12 @@ SIMPLE_JWT = {
 # EMAIL CONFIG AWS SES - AWS SIMPLE EMAIL SERVICE
 
 EMAIL_BACKEND = 'django_ses.SESBackend'
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SES_SECRET_ACCESS_KEY')
-AWS_SES_REGION_NAME = os.environ.get('REGION')
-AWS_SES_REGION_ENDPOINT = os.environ.get('REGION_ENDPOINT')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SES_SECRET_ACCESS_KEY', '')
+AWS_SES_REGION_NAME = os.environ.get('REGION', '')
+AWS_SES_REGION_ENDPOINT = os.environ.get('REGION_ENDPOINT', '')
 USE_SES_V2 = True
-EMAIL_FROM=os.environ.get('EMAIL_FROM')
+EMAIL_FROM=os.environ.get('EMAIL_FROM', '')
 
 
 # STORAGE
@@ -218,7 +229,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = os.getenv('AWS_SUCECO_ACCESS_KEY_ID', '')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SUCECO_SECRET_ACCESS_KEY', '')
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_SUCECO_BUCKET', '')
-AWS_S3_REGION_NAME = os.getenv("REGION")
+AWS_S3_REGION_NAME = os.getenv("REGION", '')
 AWS_LOCATION = 'media'
 AWS_QUERYSTRING_AUTH = False
 
