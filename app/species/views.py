@@ -1,5 +1,6 @@
 """Views for Species APIs."""
 from rest_framework import viewsets
+from rest_framework import filters
 
 from core.models import Species
 from core.permissions import CheckPermissions
@@ -10,6 +11,8 @@ class SpeciesViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.SpeciesDetailSerializer
     queryset = Species.objects.all()
     permission_classes = (CheckPermissions,)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['scientific_name']
 
     def get_queryset(self):
         """Retrieve active species."""
