@@ -47,7 +47,7 @@ class PublicRegisterPictureAPITests(TestCase):
         serializer = RegisterPictureSerializer(register, many=True)
 
         self.assertEquals(res.status_code, status.HTTP_200_OK)
-        self.assertEquals(res.data, serializer.data)
+        self.assertEquals(res.data.get('results'), serializer.data)
 
     def test_get_register_detail_no_auth_required(self):
         """Test get register detail with no authentication."""

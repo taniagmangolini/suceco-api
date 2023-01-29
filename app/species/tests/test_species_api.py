@@ -56,7 +56,7 @@ class PublicSpeciesAPITests(TestCase):
         serializer = SpeciesSerializer(species, many=True)
 
         self.assertEquals(res.status_code, status.HTTP_200_OK)
-        self.assertEquals(res.data, serializer.data)
+        self.assertEquals(res.data.get('results'), serializer.data)
 
     def test_get_species_detail_no_auth_required(self):
         """Test get species detail with no authentication."""

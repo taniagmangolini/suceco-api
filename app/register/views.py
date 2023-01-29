@@ -12,6 +12,8 @@ from core.permissions import CheckPermissions
 
 from register import serializers
 
+from utils.custom_pagination import CustomLimitOffsetPagination
+
 
 @extend_schema_view(
     list=extend_schema(
@@ -43,9 +45,10 @@ class RegisterViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RegisterDetailSerializer
     queryset = Register.objects.all()
     permission_classes = (CheckPermissions,)
+    pagination_class = CustomLimitOffsetPagination
 
     def _params_to_ints(self, qs):
-        """Convert a lista of strings to a list of integers."""
+        """Convert a list of strings to a list of integers."""
         return [int(str_id) for str_id in qs.split(',')]
 
     def get_querysetx(self):

@@ -69,7 +69,7 @@ class PublicRegisterAPITests(TestCase):
         serializer = RegisterSerializer(register, many=True)
 
         self.assertEquals(res.status_code, status.HTTP_200_OK)
-        self.assertEquals(res.data, serializer.data)
+        self.assertEquals(res.data.get('results'), serializer.data)
 
     def test_get_register_detail_no_auth_required(self):
         """Test get register detail with no authentication."""
@@ -103,9 +103,9 @@ class PublicRegisterAPITests(TestCase):
         s1 = RegisterSerializer(self.register)
         s2 = RegisterSerializer(register2)
         s3 = RegisterSerializer(register3)
-        self.assertIn(s1.data, res.data)
-        self.assertIn(s2.data, res.data)
-        self.assertNotIn(s3.data, res.data)
+        self.assertIn(s1.data, res.data.get('results'))
+        self.assertIn(s2.data, res.data.get('results'))
+        self.assertNotIn(s3.data, res.data.get('results'))
 
     def test_filter_registers_by_stages(self):
         """Test filter registers by stages."""
@@ -132,9 +132,9 @@ class PublicRegisterAPITests(TestCase):
         s1 = RegisterSerializer(self.register)
         s2 = RegisterSerializer(register2)
         s3 = RegisterSerializer(register3)
-        self.assertNotIn(s1.data, res.data)
-        self.assertNotIn(s2.data, res.data)
-        self.assertIn(s3.data, res.data)
+        self.assertNotIn(s1.data, res.data.get('results'))
+        self.assertNotIn(s2.data, res.data.get('results'))
+        self.assertIn(s3.data, res.data.get('results'))
 
     def test_filter_registers_by_species(self):
         """Test filter registers by species ids."""
@@ -161,9 +161,9 @@ class PublicRegisterAPITests(TestCase):
         s1 = RegisterSerializer(self.register)
         s2 = RegisterSerializer(register2)
         s3 = RegisterSerializer(register3)
-        self.assertNotIn(s1.data, res.data)
-        self.assertIn(s2.data, res.data)
-        self.assertNotIn(s3.data, res.data)
+        self.assertNotIn(s1.data, res.data.get('results'))
+        self.assertIn(s2.data, res.data.get('results'))
+        self.assertNotIn(s3.data, res.data.get('results'))
 
     def test_filter_register_by_states(self):
         """Test filter registers by States."""
@@ -190,9 +190,9 @@ class PublicRegisterAPITests(TestCase):
         s1 = RegisterSerializer(self.register)
         s2 = RegisterSerializer(register2)
         s3 = RegisterSerializer(register3)
-        self.assertIn(s1.data, res.data)
-        self.assertIn(s2.data, res.data)
-        self.assertNotIn(s3.data, res.data)
+        self.assertIn(s1.data, res.data.get('results'))
+        self.assertIn(s2.data, res.data.get('results'))
+        self.assertNotIn(s3.data, res.data.get('results'))
 
 
 class PrivateRegisterAPITests(TestCase):

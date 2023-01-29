@@ -59,7 +59,7 @@ class PublicForestAPITests(TestCase):
         serializer = ForestSerializer(forests, many=True)
 
         self.assertEquals(res.status_code, status.HTTP_200_OK)
-        self.assertEquals(res.data, serializer.data)
+        self.assertEquals(res.data.get('results'), serializer.data)
 
     def test_get_forest_detail_no_auth_required(self):
         """Test get forest detail with no authentication."""
