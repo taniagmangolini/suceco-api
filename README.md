@@ -4,7 +4,7 @@ Suceco Django API Project
 
 The API Documentation is available at the path /api/docs. For instance: https://localhost:8000/api/docs.
 
-### Useful Commands
+### Useful
 
 #### Build
 
